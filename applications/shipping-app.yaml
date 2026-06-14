@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/rajalingarao/10.8.roboshop-app-argocd.git
+    repoURL: https://github.com/rajalingarao/10.9.roboshop-app-argocd.git
     targetRevision: main   # or a tag/commit hash
     path: shipping      # folder in repo with Kubernetes YAMLs
     helm:
