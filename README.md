@@ -1,67 +1,26 @@
-
-Bastion server:
-------------------------
+# How to check expense app details in mysql server
 ```
-aws configure
-aws eks update-kubeconfig --region us-east-1 --name expense-dev
-kubectl get nodes
-```
-
-argocd documentation:
-https://argo-cd.readthedocs.io/en/stable/
-------------------------------------------
-```
-kubectl create namespace argocd
+kubectl get pods -n expense
 ```
 ```
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-```
-
-
-k9s:
-https://github.com/derailed/k9s
---------------------------------------
-Via Webi for Linux and macOS
-```
-curl -sS https://webinstall.dev/k9s | bash
-```
-
-
-Install Argocd CLI:
-https://argo-cd.readthedocs.io/en/stable/cli_installation/
-
-```
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+kubectl exec -it mysql-0 -n expense -- sh
 ```
 ```
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+mysql -h mysql -uroot -pExpenseApp@1
 ```
 ```
-rm argocd-linux-amd64
+kubectl exec -it nginx-app -- bash
+cd /usr/share/nginx/html/
+rm -f index.html
+echo "<h1>Welcome to Nginx Home page</h1>" > index.html
 ```
-
-https://argo-cd.readthedocs.io/en/stable/getting_started/
+(OR)
 ```
-argocd admin initial-password -n argocd
+kubectl exec -it nginx-app -- bash
+rm -f /usr/share/nginx/html/index.html
+echo "<h1>Welcome to Nginx Home page</h1>" > /usr/share/nginx/html/index.html
 ```
-We can open argocd on browser using load balancer service.
-username: admin
-password: 
-
-
-argocd.sh
------------------------------
-
+* Note: if we delete pods to apply new changes, need to destroy pods and restart it. New changes never applied bec in backend deployment works, the delete the deployment and create it again.
 ```
-#!/bin/bash
-
-kubectl create namespace argocd
-
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-
-kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.47"
+kubectl delete deployment hello-world
 ```
