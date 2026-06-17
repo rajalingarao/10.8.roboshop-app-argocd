@@ -1,4 +1,4 @@
-# How to check expense app details in mysql server
+* How to check expense app details in mysql server
 ```
 kubectl get pods -n expense
 ```
